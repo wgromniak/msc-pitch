@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Skalowalna sekelcja atrybutów</title>
+
+		<meta name="description" content="Skalowalna sekelcja atrybutów">
+		<meta name="author" content="Wiktor Gromniak">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+                <section>
+                    <h2>Skalowalna selekcja atrybutów</h2>
+                    <h4>Redukty losowe, dynamiczne i MapReduce</h4>
+                </section>
+
+                <section>
+                    <section>
+                        <ol>
+                            <span class="fragment highlight-blue"><li> Pojęcia wstępne</li></span>
+                            <li> Metoda selekcji atrybutów</li>
+                            <li> Eksperymenty</li>
+                            <li> Podsumowanie</li>
+                        </ol>
+                    </section>
+
+                    <section>
+
+                        \[ \mathcal{A} = (U, A \cup \{d\}) \]
+                        <br>
+
+                        <table>
+                            <tr> <td></td> <td>\( a_1 \)</td> <td>\( a_2 \)</td> <td>\( \dots \)</td> <td>\( a_n \)</td> <td>\( d \)</td> </tr>
+                            <tr> <td> \( o_1 \) </td> <td>\( v_{11} \)</td> <td>\( v_{12} \)</td> <td>\( \dots \)</td> <td>\( v_{1n} \)</td> <td>\( d_1 \)</td> </tr>
+                            <tr> <td> \( o_2 \) </td> <td>\( v_{21} \)</td> <td>\( v_{22} \)</td> <td>\( \dots \)</td> <td>\( v_{2n} \)</td> <td>\( d_2 \)</td> </tr>
+                            <tr> <td> \( \vdots \) </td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> </tr>
+                            <tr> <td> \( o_m \) </td> <td>\( v_{m1} \)</td> <td>\( v_{m2} \)</td> <td>\( \dots \)</td> <td>\( v_{mn} \)</td> <td>\( d_m \)</td> </tr>
+                        </table>
+
+                    </section>
+
+                    <style>
+                        div.box {
+                            background-color: rgba(0, 0, 0, 0.7);
+                        }
+
+                        div.box table {
+                            font-size: 20px;
+                            color: #ffffff;
+                            font-weight: bold;
+                        }
+                    </style>
+
+                    <section data-background="microarray.jpg">
+
+                        <div class="box">
+                        <table>
+                            <tr> <td></td> <td>AFFX-BioB-3_at</td> <td>AFFX-BioB-5_at</td> <td>\( \dots \)</td> <td>AFFX-r2-Bs-dap-3_at</td> <td>\( d \)</td> </tr>
+                            <tr> <td> GSM338842.CEL </td> <td>3.011249298</td> <td>2.974309738</td> <td>\( \dots \)</td> <td>6.710523802</td> <td>P-B ALL, subtype: other</td> </tr>
+                            <tr> <td> GSM338843.CEL </td> <td>3.330988858</td> <td>3.271200534</td> <td>\( \dots \)</td> <td>6.666104721</td> <td>P-B ALL, subtype: TEL-AML1</td> </tr>
+                            <tr> <td> \( \vdots \) </td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> </tr>
+                            <tr> <td> GSM338999.CEL </td> <td>4.1057264</td> <td>3.686814053</td> <td>\( \dots \)</td> <td>7.51578544</td> <td>P-B ALL, subtype: TEL-AML1</td> </tr>
+                        </table>
+                        </div>
+
+                    </section>
+
+                    <section style="color: #ffffff" data-background="microarray.jpg">
+
+                        <div class="box">
+                            \( \gets \) > 20 000 \( \to \)
+                            <table style="font-size: 10px; font-weight: normal">
+                                <tr> <td></td> <td>AFFX-BioB-3_at</td> <td>AFFX-BioB-5_at</td> <td>AFFX-r2-Bs-dap-3_at</td> <td>AFFX-BioB-3_at</td> <td>\( \dots \)</td> <td>AFFX-BioB-5_at</td> <td>AFFX-r2-Bs-dap-3_at</td> <td>AFFX-BioB-3_at</td> <td>AFFX-BioB-5_at</td> <td>AFFX-r2-Bs-dap-3_at</td> <td>\( d \)</td> </tr>
+                                <tr> <td> GSM338842.CEL </td> <td>3.011249298</td> <td>2.974309738</td> <td>6.710523802</td> <td>3.011249298</td> <td>\( \dots \)</td> <td>2.974309738</td> <td>6.710523802</td> <td>3.011249298</td> <td>2.974309738</td> <td>6.710523802</td> <td>P-B ALL, subtype: other</td> </tr>
+                                <tr> <td> GSM338843.CEL </td> <td>3.330988858</td> <td>3.271200534</td> <td>6.666104721</td> <td>3.330988858</td> <td>\( \dots \)</td> <td>3.271200534</td> <td>6.666104721</td> <td>3.330988858</td> <td>3.271200534</td> <td>6.666104721</td> <td>P-B ALL, subtype: TEL-AML1</td> </tr>
+                                <tr> <td> \( \vdots \) </td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> </tr>
+                                <tr> <td> GSM338999.CEL </td> <td>4.1057264</td> <td>3.686814053</td><td>7.51578544</td> <td>4.1057264</td> <td>\( \dots \)</td> <td>3.686814053</td><td>7.51578544</td> <td>4.1057264</td> <td>3.686814053</td><td>7.51578544</td> <td>P-B ALL, subtype: TEL-AML1</td> </tr>
+                            </table>
+                            <span class="fragment">
+                                <br>
+                                \( \downarrow \)
+                                <br><br>
+                                \( \gets \) < 1000 \( \to \)
+                                <table style="font-size: 10px; font-weight: normal">
+                                    <tr> <td></td> <td>AFFX-BioB-3_at</td> <td>AFFX-BioB-5_at</td> <td>\( \dots \)</td> <td>AFFX-r2-Bs-dap-3_at</td> <td>\( d \)</td> </tr>
+                                    <tr> <td> GSM338842.CEL </td> <td>3.011249298</td> <td>2.974309738</td> <td>\( \dots \)</td> <td>6.710523802</td> <td>P-B ALL, subtype: other</td> </tr>
+                                    <tr> <td> GSM338843.CEL </td> <td>3.330988858</td> <td>3.271200534</td> <td>\( \dots \)</td> <td>6.666104721</td> <td>P-B ALL, subtype: TEL-AML1</td> </tr>
+                                    <tr> <td> \( \vdots \) </td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> </tr>
+                                    <tr> <td> GSM338999.CEL </td> <td>4.1057264</td> <td>3.686814053</td> <td>\( \dots \)</td> <td>7.51578544</td> <td>P-B ALL, subtype: TEL-AML1</td> </tr>
+                                </table>
+                            </span>
+                        </div>
+
+                    </section>
+
+                    <section>
+
+                        Obiekty \(x, y \in U\) są <i>rozróżnialne</i> przez \(P \subseteq A\) <i>względem</i> \(d\), jeśli
+                        <br><br>
+                        \[ d(x) \neq d(y) \Rightarrow \exists  a \in P: a(x) \neq a(y).\]
+
+                    </section>
+
+                    <section>
+
+                        <p style="text-align: left">
+                            &nbsp;&nbsp;&nbsp;\( R \subseteq A \) jest <i>reduktem</i>:
+                        </p>
+                        <ul>
+                            <li> \(R\) zachowuje rozróżnialność \(A\) względem \(d\) </li>
+                            <li> żaden właściwy podzbiór \(R\) nie ma powyższej własności </li>
+                        </ul>
+
+                    </section>
+
+                    <section>
+
+                        Niech \( \mathcal{A} = (U, A \cup \{d\}) \), \( A = \{a_1, \dots, a_m\} \),
+                        to \( \mathcal{A'}  = (U', A' \cup \{d'\}) \) - <i>podtablica obiektowa</i>, gdzie
+                        <ul>
+                            <li> \(U' \subseteq U\) </li>
+                            <li> \(d' = d |_{U'}\) </li>
+                            <li> \(A' = \{a_1', \dots,  a_m'\}\), \(a_i' = a_i |_{U'}\)</li>
+                        </ul>
+
+                    </section>
+
+                    <section>
+
+
+
+                    </section>
+
+
+                </section>
+
+                <section>
+
+                    <section>
+                        <ol>
+                            <li> Pojęcia wstępne</li>
+                            <li style="color: #1b91ff;"> Metoda selekcji atrybutów</li>
+                            <li> Eksperymenty</li>
+                            <li> Podsumowanie</li>
+                        </ol>
+                    </section>
+
+                </section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/math/math.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
