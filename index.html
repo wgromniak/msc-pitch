@@ -157,9 +157,17 @@
                     </section>
 
                     <section>
+                        <p style="text-align: left; margin-left: 25%">
+                        Wejście: &nbsp;&nbsp;&nbsp;&nbsp; {(klucz, wartość)}  &nbsp; \( \to \) <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp; Map  &nbsp; \( \to \)  &nbsp; {(<span style="color: #1b91ff;">klucz</span>, <span style="color: #ff2c2d;">wartość</span>)} <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp; Shuffle  &nbsp; \( \to \) &nbsp; {(<span style="color: #1b91ff;">klucz</span>, [<span style="color: #ff2c2d;">wartości</span>])} <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp; Reduce &nbsp; \( \to \) <br>
+                        Wyjście: &nbsp;&nbsp;&nbsp;&nbsp; {(<span style="color: #1b91ff;">klucz</span>, <span style="color: #13bb23;;">wartość</span>)} <br>
+                        </p>
+                    </section>
 
-
-
+                    <section>
+                        <img src="map_red.png">
                     </section>
 
 
@@ -176,6 +184,127 @@
                         </ol>
                     </section>
 
+                    <section>
+
+                        <img src="RR.png">
+
+                    </section>
+
+                    <section>
+
+                        <p>
+                            \[FScore_i = \frac{ \sum_{k=1}^s \sum_{l=1}^{t_k} \mathbb{I}(a_i \in RED_{k,l}) }
+                            { \sum_{k=1}^s \mathbb{I}(a_i \in SUB_k) }\]
+                        </p>
+                        <br><br>
+                        <ul style="list-style: none">
+                            <li> \(s\) - liczba podzbiorów attrybutów </li>
+                            <li> \(t_k\) - liczba reduktów w \(k\)-tej podtablicy </li>
+                            <li> \(RED_{k,l}\) - \(l\)-ty redukt w \(k\)-tej podtablicy </li>
+                            <li> \(SUB_k\) - \(k\)-ta podtablica </li>
+                        </ul>
+
+                    </section>
+
+                    <section>
+
+                        <p>
+                            \[ N = \underset{ n \in \{1, \dots, d \} }{ \textrm{argmin} } \left( \left( 1 - \frac{\sum_{k=1}^n FScore_k}{\sum_{k=1}^d FScore_k} \right)^2 + \left( \frac{n}{d} \right)^2 \right) \]
+                        </p>
+                        <br>
+                        <ul style="list-style: none">
+                            <li> \(N\) - liczba istotnych atrybutów </li>
+                            <li> \(FScore_k\) - wynik \(k\)-tego atrybutu </li>
+                            <li> \(d\) - liczba wszystkich atrybutów </li>
+                        </ul>
+
+                    </section>
+
+                    <section>
+
+                        <img src="fast_cutoff.png">
+
+                    </section>
+
+                    <section>
+
+                        <img src="RR.png">
+
+                    </section>
+
+                </section>
+
+                <section>
+
+                    <section>
+                        <ol>
+                            <li> Pojęcia wstępne</li>
+                            <li> Metoda selekcji atrybutów</li>
+                            <li style="color: #1b91ff;"> Eksperymenty</li>
+                            <li> Podsumowanie</li>
+                        </ol>
+                    </section>
+
+                    <section>
+                        <table>
+                            <tr><td></td><th># obiektów</th><th># atrybutów</th><th># klas dec.</th></tr>
+                            <tr><td>ALL</td><td>190</td><td>22276</td><td>5</td></tr>
+                            <tr><td>ATC</td><td>160</td><td>61358</td><td>2</td></tr>
+                        </table>
+                    </section>
+
+                    <section>
+                        <table>
+                            <tr><td></td><th>RDR</th><th>MCFS</th></tr>
+                            <tr><td>ALL</td><td>82.63% (855)</td><td>86.31% (167)</td></tr>
+                            <tr><td>ATC</td><td>68.75% (4355)</td><td>76.25% (100)</td></tr>
+                        </table>
+                    </section>
+
+                    <section>
+                        <table>
+                            <tr> <td> </td> <th> tryb obliczeń </th> <th> czas </th> </tr>
+                            <tr> <td rowspan="2" style="vertical-align: middle"> RDR </td> <td>1 komputer</td> <td> 8 min 3 sec </td> </tr>
+                            <tr>                                                           <td>MapReduce</td> <td> 2 min 24 sec</td> </tr>
+                            <tr> <td rowspan="2" style="vertical-align: middle"> MCFS </td> <td>1 komputer</td> <td> 143 min 27 sec </td> </tr>
+                            <tr>                                                            <td>MapReduce</td> <td> 20 min 5 sec</td> </tr>
+                        </table>
+                    </section>
+
+                    <section>
+                        <p>
+                            \[ \textrm{speed-up}(n) = \frac{t_1}{t_n} \]
+                        </p>
+                        <ul>
+                            <li> $t_j$ jest czasem obliczeń na $j$ komputerach </li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <img src="speed-up.png">
+                    </section>
+
+                </section>
+
+                <section>
+
+                    <section>
+                        <ol>
+                            <li> Pojęcia wstępne</li>
+                            <li> Metoda selekcji atrybutów</li>
+                            <li> Eksperymenty</li>
+                            <li style="color: #1b91ff;"> Podsumowanie</li>
+                        </ol>
+                    </section>
+
+                    <section>
+                        <img style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.15)" src="knfc.png">
+                    </section>
+
+                </section>
+
+                <section>
+                    <h2>Dziękuję</h2>
                 </section>
 
 			</div>
@@ -208,6 +337,12 @@
                     { src: 'plugin/math/math.js', async: true }
 				]
 			});
+
+//            Reveal.configure({
+//                keyboard: {
+//                    40: 'next' // go to the next slide when the DOWN key is pressed
+//                }
+//            });
 
 		</script>
 
