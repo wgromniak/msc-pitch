@@ -61,11 +61,11 @@
                         <br>
 
                         <table>
-                            <tr> <td></td> <td>\( a_1 \)</td> <td>\( a_2 \)</td> <td>\( \dots \)</td> <td>\( a_n \)</td> <td>\( d \)</td> </tr>
-                            <tr> <td> \( o_1 \) </td> <td>\( v_{11} \)</td> <td>\( v_{12} \)</td> <td>\( \dots \)</td> <td>\( v_{1n} \)</td> <td>\( d_1 \)</td> </tr>
-                            <tr> <td> \( o_2 \) </td> <td>\( v_{21} \)</td> <td>\( v_{22} \)</td> <td>\( \dots \)</td> <td>\( v_{2n} \)</td> <td>\( d_2 \)</td> </tr>
-                            <tr> <td> \( \vdots \) </td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> </tr>
-                            <tr> <td> \( o_m \) </td> <td>\( v_{m1} \)</td> <td>\( v_{m2} \)</td> <td>\( \dots \)</td> <td>\( v_{mn} \)</td> <td>\( d_m \)</td> </tr>
+                            <tr style="border-bottom: double"> <td style="border-right: double"></td> <td>\( a_1 \)</td> <td>\( a_2 \)</td> <td>\( \dots \)</td> <td>\( a_n \)</td> <td style="border-left: solid 1px">\( d \)</td> </tr>
+                            <tr> <td style="border-right: double"> \( o_1 \) </td> <td>\( v_{11} \)</td> <td>\( v_{12} \)</td> <td>\( \dots \)</td> <td>\( v_{1n} \)</td> <td style="border-left: solid 1px">\( d_1 \)</td> </tr>
+                            <tr> <td style="border-right: double"> \( o_2 \) </td> <td>\( v_{21} \)</td> <td>\( v_{22} \)</td> <td>\( \dots \)</td> <td>\( v_{2n} \)</td> <td style="border-left: solid 1px">\( d_2 \)</td> </tr>
+                            <tr> <td style="border-right: double"> \( \vdots \) </td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td>\( \vdots \)</td> <td style="border-left: solid 1px">\( \vdots \)</td> </tr>
+                            <tr> <td style="border-right: double"> \( o_m \) </td> <td>\( v_{m1} \)</td> <td>\( v_{m2} \)</td> <td>\( \dots \)</td> <td>\( v_{mn} \)</td> <td style="border-left: solid 1px">\( d_m \)</td> </tr>
                         </table>
 
                     </section>
@@ -126,7 +126,8 @@
 
                     <section>
 
-                        Obiekty \(x, y \in U\) są <i>rozróżnialne</i> przez \(P \subseteq A\) <i>względem</i> \(d\), jeśli
+                        Obiekty \(x, y \in U\) są <i>rozróżnialne</i> przez \(P \subseteq A\)
+                        <br><i>względem</i> \(d\), jeśli
                         <br><br>
                         \[ d(x) \neq d(y) \Rightarrow \exists  a \in P: a(x) \neq a(y).\]
 
@@ -134,8 +135,8 @@
 
                     <section>
 
-                        <p style="text-align: left">
-                            &nbsp;&nbsp;&nbsp;\( R \subseteq A \) jest <i>reduktem</i>:
+                        <p style="text-align: left; margin-left: 5%">
+                            \( R \subseteq A \) jest <i>reduktem</i>:
                         </p>
                         <ul>
                             <li> \(R\) zachowuje rozróżnialność \(A\) względem \(d\) </li>
@@ -147,7 +148,8 @@
                     <section>
 
                         Niech \( \mathcal{A} = (U, A \cup \{d\}) \), \( A = \{a_1, \dots, a_m\} \),
-                        to \( \mathcal{A'}  = (U', A' \cup \{d'\}) \) - <i>podtablica obiektowa</i>, gdzie
+                        to \( \mathcal{A'}  = (U', A' \cup \{d'\}) \) &mdash; <i>podtablica obiektowa</i>, gdzie
+                        <br><br>
                         <ul>
                             <li> \(U' \subseteq U\) </li>
                             <li> \(d' = d |_{U'}\) </li>
@@ -198,10 +200,10 @@
                         </p>
                         <br><br>
                         <ul style="list-style: none">
-                            <li> \(s\) - liczba podzbiorów attrybutów </li>
-                            <li> \(t_k\) - liczba reduktów w \(k\)-tej podtablicy </li>
-                            <li> \(RED_{k,l}\) - \(l\)-ty redukt w \(k\)-tej podtablicy </li>
-                            <li> \(SUB_k\) - \(k\)-ta podtablica </li>
+                            <li> \(s\) &mdash; liczba podtablic </li>
+                            <li> \(t_k\) &mdash; liczba reduktów w \(k\)-tej podtablicy </li>
+                            <li> \(RED_{k,l}\) &mdash; \(l\)-ty redukt w \(k\)-tej podtablicy </li>
+                            <li> \(SUB_k\) &mdash; \(k\)-ta podtablica </li>
                         </ul>
 
                     </section>
@@ -209,13 +211,12 @@
                     <section>
 
                         <p>
-                            \[ N = \underset{ n \in \{1, \dots, d \} }{ \textrm{argmin} } \left( \left( 1 - \frac{\sum_{k=1}^n FScore_k}{\sum_{k=1}^d FScore_k} \right)^2 + \left( \frac{n}{d} \right)^2 \right) \]
+                            \[ \underset{ n \in \{1, \dots, d \} }{ \textrm{argmin} } \left( \left( 1 - \frac{\sum_{k=1}^n FScore_k}{\sum_{k=1}^d FScore_k} \right)^2 + \left( \frac{n}{d} \right)^2 \right) \]
                         </p>
                         <br>
                         <ul style="list-style: none">
-                            <li> \(N\) - liczba istotnych atrybutów </li>
-                            <li> \(FScore_k\) - wynik \(k\)-tego atrybutu </li>
-                            <li> \(d\) - liczba wszystkich atrybutów </li>
+                            <li> \(FScore_k\) &mdash; wynik \(k\)-tego atrybutu </li>
+                            <li> \(d\) &mdash; liczba wszystkich atrybutów </li>
                         </ul>
 
                     </section>
@@ -256,8 +257,8 @@
                     <section>
                         <table>
                             <tr><td></td><th>RDR</th><th>MCFS</th></tr>
-                            <tr><td>ALL</td><td>82.63% (855)</td><td>86.31% (167)</td></tr>
-                            <tr><td>ATC</td><td>68.75% (4355)</td><td>76.25% (100)</td></tr>
+                            <tr class="fragment" data-fragment-index="1"><td>ALL</td><td>82.63% (855)</td><td>86.31% (167)</td></tr>
+                            <tr class="fragment" data-fragment-index="1"><td>ATC</td><td>68.75% (4355)</td><td>76.25% (100)</td></tr>
                         </table>
                     </section>
 
@@ -276,7 +277,7 @@
                             \[ \textrm{speed-up}(n) = \frac{t_1}{t_n} \]
                         </p>
                         <ul>
-                            <li> $t_j$ jest czasem obliczeń na $j$ komputerach </li>
+                            <li> $t_j$ &mdash; czasem obliczeń na $j$ komputerach </li>
                         </ul>
                     </section>
 
